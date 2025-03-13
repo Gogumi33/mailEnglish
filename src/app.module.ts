@@ -7,9 +7,10 @@ import { BookmarksModule } from './bookmarks/bookmarks.module';
 import { SettingsModule } from './settings/settings.module';
 import { PrismaService } from './prisma/prisma.service';
 import { PrismaModule } from './prisma/prisma.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [UsersModule, SentencesModule, BookmarksModule, SettingsModule, PrismaModule],
+  imports: [UsersModule, AuthModule, SentencesModule, BookmarksModule, SettingsModule, PrismaModule],
   controllers: [AppController],
   providers: [AppService, PrismaService],
 })
