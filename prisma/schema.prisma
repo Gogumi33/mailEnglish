@@ -39,18 +39,23 @@ model Sentence {
 
 model Bookmark {
   id         Int  @id @default(autoincrement())
-  userId     Int  @relation(fields: [userId], references: [id])
-  sentenceId Int  @relation(fields: [sentenceId], references: [id])
+  userId     Int  
+  sentenceId Int  
   createdAt  DateTime @default(now())
 
-  @@unique([userId, sentenceId])
+  user       User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sentence   Sentence @relation(fields: [sentenceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, sentenceId]) // 중복 북마크 방지
 }
 
 model Settings {
   id            Int  @id @default(autoincrement())
-  userId        Int  @relation(fields: [userId], references: [id])
+  userId        Int  @unique  // ✅ One-to-One 관계에서 반드시 UNIQUE 설정
   level         String  @default("beginner")
   topics        String?
   dailyReminder Boolean @default(false)
   createdAt     DateTime @default(now())
+
+  user         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
