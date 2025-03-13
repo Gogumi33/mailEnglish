@@ -12,3 +12,45 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id        Int     @id @default(autoincrement())
+  email     String  @unique
+  password  String
+  nickname  String
+  createdAt DateTime @default(now())
+
+  bookmarks Bookmark[]
+  settings  Settings?
+}
+
+model Sentence {
+  id          Int     @id @default(autoincrement())
+  content     String
+  translation String
+  example     String?
+  audioUrl    String?
+  level       String  @default("beginner")
+  topic       String
+  createdAt   DateTime @default(now())
+
+  bookmarks   Bookmark[]
+}
+
+model Bookmark {
+  id         Int  @id @default(autoincrement())
+  userId     Int  @relation(fields: [userId], references: [id])
+  sentenceId Int  @relation(fields: [sentenceId], references: [id])
+  createdAt  DateTime @default(now())
+
+  @@unique([userId, sentenceId])
+}
+
+model Settings {
+  id            Int  @id @default(autoincrement())
+  userId        Int  @relation(fields: [userId], references: [id])
+  level         String  @default("beginner")
+  topics        String?
+  dailyReminder Boolean @default(false)
+  createdAt     DateTime @default(now())
+}
