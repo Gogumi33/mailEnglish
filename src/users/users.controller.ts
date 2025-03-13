@@ -18,7 +18,7 @@ export class UsersController {
     return this.usersService.getAllUsers();
   }
 
-  // 특정 유저 조회 API
+  // 특정 유저 조회 API -> ':id' 제일 앞에 굳이 '/' 안붙여도 됨
   @Get(':id')
   getUserById(@Param('id') id: number) {
     return this.usersService.getUserById(Number(id));
